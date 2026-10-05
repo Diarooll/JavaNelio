@@ -1,53 +1,39 @@
 package Application;
 
-import model.entities.CarRental;
-import model.entities.RentalService;
-import model.entities.Vehicle;
-import model.services.BrazilTaxService;
+import models.entities.Contract;
+import models.entities.Installment;
+import models.service.ContractService;
+import models.service.PaypalService;
 
-import javax.swing.text.StyledEditorKit;
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Main {
+public class Main{
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
-        // mais utilizado
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        boolean valid = false;
-        while(!valid) {
-            try {
-                //entrada de dados
-                System.out.println("Enter the rental data:");
-                System.out.print("Car model: ");
-                String carModel = sc.nextLine();
-                System.out.print("Retirada dd/MM/yyyy HH:mm: ");
-                LocalDateTime start = LocalDateTime.parse(sc.nextLine(), fmt);
-                System.out.print("Retorno dd/MM/yyyy HH:mm: ");
-                LocalDateTime finish = LocalDateTime.parse(sc.nextLine(), fmt);
-                System.out.print("Enter the price per hour: ");
-                double hourPrice = sc.nextDouble();
-                System.out.print("Enter the price per day: ");
-                double dailyPrice = sc.nextDouble();
+        System.out.print("Enter the contract number: ");
+        int number = sc.nextInt();
+        System.out.print("Contract date: ");
+        LocalDate contractTime = LocalDate.parse(sc.next(), fmt);
+        System.out.print("Contract total value: ");
+        double totalValue = sc.nextDouble();
+        System.out.print("Enter the number of installments: ");
+        int months = sc.nextInt();
 
-                CarRental carRental = new CarRental(new Vehicle(carModel), start, finish);
+        Contract obj = new Contract(number, contractTime, totalValue);
+        ContractService contractService = new ContractService(new PaypalService());
+        contractService.processContract(obj, months);
 
-                BrazilTaxService taxService = new BrazilTaxService();
-                RentalService rs = new RentalService(hourPrice, dailyPrice, taxService);
-                rs.processInvoice(carRental);
-
-                valid = true;
-            } catch (DateTimeException e) {
-                System.out.println("Error: Data should be at the pattern dd/MM/yyyy HH:mm.\n");
-            }
+        System.out.println("parcelas: ");
+        for(Installment ins : obj.getInstallments()){
+            System.out.println(ins);
         }
-
-
+        System.out.println("Total payment: " + String.format("%.2f", contractService.getTotalPayment()));
 
 
         sc.close();
