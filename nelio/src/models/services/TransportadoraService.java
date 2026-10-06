@@ -11,4 +11,9 @@ public class TransportadoraService implements FreteService{
     public int prazo() {
         return 3;
     }
+
+    @Override
+    public String toString() {
+        return "Serviço transportadora da empresa";
+    }
 }

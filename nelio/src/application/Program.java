@@ -83,6 +83,7 @@ public class Program {
             }
             PedidoService ps = new PedidoService(freteService);
             ps.fecharPedido(pedido);
+            System.out.println(pedido);
 
         } catch(InputMismatchException e){
             System.out.println("Deveria ser um numero.");

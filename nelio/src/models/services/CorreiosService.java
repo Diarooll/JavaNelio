@@ -11,4 +11,9 @@ public class CorreiosService implements FreteService{
     public int prazo() {
         return 7;
     }
+
+    @Override
+    public String toString() {
+        return "Serviço correios.";
+    }
 }

@@ -10,6 +10,9 @@ public class Pedido {
     private List<Produto> produtos = new ArrayList<>();
     private double pesoTotal;
     private double valorTotal;
+    private double frete;
+    private int prazo;
+    private String transportadora;
 
 
     public Pedido(){}
@@ -23,32 +26,45 @@ public class Pedido {
         }
     }
 
+
     public int getNumero() {
         return numero;
     }
-
     public void setNumero(int numero) {
         this.numero = numero;
     }
-
     public LocalDate getData() {
         return data;
     }
-
     public void setData(LocalDate data) {
         this.data = data;
     }
-
     public List<Produto> getProdutos() {
         return produtos;
     }
-
     public double getPesoTotal() {
         return pesoTotal;
     }
-
     public double getValorTotal() {
         return valorTotal;
+    }
+
+    public void registrarFrete(double frete, int prazo, String transportadora) {
+        this.frete = frete;
+        this.prazo = prazo;
+        this.transportadora = transportadora;
+    }
+
+    public double getTotalComFrete() {
+        return valorTotal + frete;
+    }
+
+    public int getPrazo() { return prazo; }
+
+    @Override
+    public String toString() {
+        return String.format("Pedido %d\nTransportadora: %s\nFrete: R$%.2f\nPrazo: %d dias\nTotal: R$%.2f",
+                numero, transportadora, frete, prazo, getTotalComFrete());
     }
 
 }
