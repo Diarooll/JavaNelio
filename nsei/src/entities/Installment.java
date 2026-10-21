@@ -3,15 +3,14 @@ package entities;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Installments {
+public class Installment {
     private static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private LocalDate dueDate;
-    private double amount;
+    private double monthPayment;
 
-    public Installments(){}
-    public Installments(LocalDate dueDate, double amount) {
+    public Installment(LocalDate dueDate, double monthPayment) {
         this.dueDate = dueDate;
-        this.amount = amount;
+        this.monthPayment = monthPayment;
     }
 
     public LocalDate getDueDate() {
@@ -22,16 +21,16 @@ public class Installments {
         this.dueDate = dueDate;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getMonthPayment() {
+        return monthPayment;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setMonthPayment(double monthPayment) {
+        this.monthPayment = monthPayment;
     }
 
     @Override
     public String toString() {
-        return dueDate.format(dtf) + " - " + String.format("%.2f", amount);
+        return dueDate.format(dtf) + " - " + String.format("%.2f", monthPayment);
     }
 }
