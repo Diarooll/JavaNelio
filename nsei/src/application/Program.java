@@ -1,46 +1,38 @@
 package application;
 
-import entities.Contract;
-import entities.Installment;
-import services.ContractService;
-import services.PaymentService;
-import services.PaypalPayment;
+import entities.Circle;
+import entities.Rectangle;
+import interfaces.Shape;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Program {
     public static void main(String[] args) {
-        Locale.setDefault(Locale.US);
-        Scanner sc = new Scanner(System.in);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        System.out.println("Enter contract's datas:");
-        System.out.print("number: ");
-        int number = sc.nextInt();
-        System.out.print("Day: ");
-        LocalDate date = LocalDate.parse(sc.next(), dtf);
-        sc.nextLine();
-        System.out.print("Client name: ");
-        String clientName = sc.nextLine();
-        System.out.print("Total value: ");
-        double totalValue = sc.nextDouble();
-        System.out.print("Number of months/installments: ");
-        int months = sc.nextInt();
 
-        Contract contract = new Contract(number, clientName, totalValue, date, months);
+        List<Integer> myInts = Arrays.asList(1,2,3,4);
+        List<Double> myDoubles = Arrays.asList(3.14, 2.6, 12.897);
+        List<Object> myObjs = new ArrayList<>();
 
-        ContractService service = new ContractService(new PaypalPayment());
-        service.processPayment(contract, contract.getMonths());
+        copy(myInts, myObjs);
+        printList(myObjs);
+        copy(myDoubles, myObjs);
+        printList(myObjs);
 
-        for(Installment installment : contract.getInstallments()){
-            System.out.println(installment);
+    }
+    public static void copy(List<? extends Number> source, List<? super Number> destiny){
+        for(Number num : source){
+            destiny.add(num);
         }
+    }
 
-
-
-
+    public static void printList(List<?> list){
+        for(Object obj : list){
+            System.out.println(obj + " ");
+        }
+        System.out.println();
     }
 }
